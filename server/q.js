@@ -6,24 +6,26 @@ const endpoint = 'https://api.smash.gg/gql/alpha';
 var token = fs.readFileSync("token.txt").toString();
 token = token.replace(/\s+/g, '');
 
-var query = `query EventStandings {
-  event(id: 78790) {
-    name
-    standings(query: {
-      perPage: 3,
-      page: 1
-    }){
-      nodes {
-        standing
-        entrant {
-          name
-        }
+var query = `query TournamentsByState {
+  tournaments(query: {
+    perPage: 5
+    filter: {
+      location: {
+          distanceFrom: "36.845,-119.720167"
+          distance: "50mi"
       }
+    }
+  }) {
+    nodes {
+      id
+      name
+      addrState
     }
   }
 }
 `
 query = JSON.stringify({ query: query });
+
 
 var head = {
   "Content-Type": "application/json",
@@ -35,7 +37,7 @@ async function outputData(header, query) {
   console.log("waiting...");
   var result = await fetch(endpoint, {method: 'POST',headers: head,body: query,});
   result = await result.json();
-  console.log(result.data.event.standings.nodes);
+  console.log(result.data.tournaments.nodes);
 }
 
 outputData(head, query);
