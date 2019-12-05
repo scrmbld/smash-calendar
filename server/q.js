@@ -66,7 +66,11 @@ async function outputData(header, query) {
   result = await result.json();
   console.log(result.data.tournaments.nodes.length)
   console.log(now);
-  sortOutput(result);//package up info nicely
+  result = await sortOutput(result);//package up info nicely
+  fs.writeFile("output.json", JSON.stringify(result), (err) => {
+    if (err) throw err;
+    console.log("Write completed");
+  });
 }
 
 outputData(head, query);
