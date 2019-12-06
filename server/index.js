@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { graphql, buildSchema } = require('graphql');
 const fetch = require('node-fetch');
+const Tournament = require('./Tournament');
 
 const now = (+ new Date) / 1000;//get a time value in the same format as smashgg
 const endpoint = 'https://api.smash.gg/gql/alpha';
@@ -37,22 +38,23 @@ var head = {
 
 
 function sortOutput(response) {
-  let temp = response.data.tournaments.nodes;
+  let input = response.data.tournaments.nodes;
   let output = [];
 
-  for (var i = 0; i < temp.length; i++) {
+  for (var i = 0; i < input.length; i++) {
+    temp = new Tournament(input[i].id, input[i].name, input[i].startAt, input[i].venueAddress);
     //don't include tournaments that have already happened
-    if (temp[i].startAt < now) {
-      console.log(temp[i].name + " has already happened");
+    if (temp.startAt < now) {
+      console.log(temp.name + " has already happened");
       continue;
     }
     //don't include online tournaments
-    if (temp[i].venueAddress.length < 25) {
-      console.log(temp[i].name + " is an online / placeholder tournament");
+    if (temp.venueAddress.length < 25) {
+      console.log(temp.name + " is an online / placeholder tournament");
       continue;
     }
 
-    output.push(temp[i]);
+    output.push(temp);
     }
 
   console.log(output); //FOR DEBUG PURPOSES
