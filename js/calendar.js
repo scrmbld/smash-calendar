@@ -2,11 +2,10 @@
 class Day {
   constructor(id, parent) {//int, parent Calendar id
     this.id = id;
-    this.element = document.createElement(`div`);
-    this.element.id = `n${id}`;
-    this.element.classList.add(`day`);
-    document.querySelector(`.calendar-container#${parent} .week#n${Math.floor(id / 7)}`).appendChild(this.element);
-    this.element = document.querySelector(`.calendar-container #${parent} .week #n${id}`);
+    this.element = document.querySelector(`.calendar-container#${parent} .week #n${id}`);
+    let dayNum = document.createElement(`h3`);
+    dayNum.textContent = `${id}`;
+    this.element.appendChild(dayNum);
   }
 }
 
