@@ -1,7 +1,6 @@
 {
   "name": "calendar",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,6 +16,10 @@
   },
   "homepage": "https://github.com/scrmbld/smash-calendar#readme",
   "dependencies": {
-    "graphql": "^14.5.8"
-  }
+    "bootstrap": "^4.5.0",
+    "graphql": "^14.5.8",
+    "jquery": "^3.5.1"
+  },
+  "devDependencies": {},
+  "description": ""
 }
