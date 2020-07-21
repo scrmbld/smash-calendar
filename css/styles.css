@@ -1,3 +1,15 @@
-h1 {
-  color: red;
+.calendar-container{
+  border-bottom: 2px solid black;
+}
+
+.week{
+  width: 100vw;
+  height: 17vh;
+  border-top: 2px solid black;
+}
+.day{
+  border-left: 1px solid #333;
+  height: 100%;
+  width: 14.27%;
+  display: inline-block;
 }
