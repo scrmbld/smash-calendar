@@ -2,14 +2,30 @@
   border-bottom: 2px solid black;
 }
 
+.calendar-container h1{
+  width: 100%;
+  text-align: center;
+}
+
 .week{
 }
 
 .day{
   border-left: 1px solid #333;
   border-top: 2px solid black;
-  display: inline-block;
   height: 17vh;
+}
+
+.day h3{
+  color: #454545;
+}
+
+.day.not-current{/*.day element not part of the current month*/
+  background-color: #eee;
+}
+
+.day.not-current h3{
+  color: #666666;
 }
 
 .day #n34{
