@@ -1,9 +1,13 @@
 //month data
 const MONTHS = {
   names: [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`],
-  lengths: [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-  getLength: function(month) {
-    console.assert(month > 0 && month < 12);
+  lengths: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+  getLength: function(month, year) {
+    console.assert(month >= 0 && month < 12);
+    if (month == 1) {
+      if (year % 4 == 0) return 29;
+      return 28;
+    }
     return this.lengths[month]
   },
   getName: function(month) {
@@ -12,6 +16,9 @@ const MONTHS = {
   },
   lastMonth: function(month) {
     return (month + 11) % 12;
+  },
+  nextMonth: function(month) {
+    return (month + 13) % 12;
   }
 };
 
@@ -30,8 +37,7 @@ class Calendar {
   constructor(id, time = new Date()) {//string div.calendar-container's id, int month, Date
     let month = time.getMonth();
     let year = time.getFullYear();
-    let start = new Date(`${month + 1}/1/${year} 1:00:00`).getDay();;//the id of the first day of the current month
-    console.log(start);
+    let start = new Date(`${month}/1/${year} 1:00:00`).getDay();;//the id of the first day of the current month
     //initialize attributes
     this.id = id;
     this.element = document.querySelector(`.calendar-container#${id}`);
@@ -46,15 +52,16 @@ class Calendar {
       this.dayList.push(new Day(i, id));//create day
 
       //determine day number
-      if (i > MONTHS.getLength(month) + start || i <= start) {//if it's in the next month
+      if (i > MONTHS.getLength(month, year) + start) {//if it's in the next month
         this.dayList[i].element.classList.add(`not-current`);
-        this.dayList[i].dayNum.textContent = (i) % MONTHS.getLength(month);
-      } else if (this.dayList[i].dayNum.textContent <= start) {
-        this.dayList[i].dayNum.textContent = MONTHS.getLength(MONTHS.lastMonth(month)) - (start - i);
+        this.dayList[i].dayNum.textContent = i- (start + MONTHS.getLength(month, year));
+      } else if (this.dayList[i].dayNum.textContent <= start) {//if it's in the previous month
+        this.dayList[i].dayNum.textContent = MONTHS.getLength(MONTHS.lastMonth(month), year) - (start - i);
+        this.dayList[i].element.classList.add(`not-current`);
       } else this.dayList[i].dayNum.textContent = i - start;
     }
   }
 }
 
 //generate the calendar
-var calendar = new Calendar(`n1`);
+var calendar = new Calendar(`n1`, new Date("2020-2-2"));
